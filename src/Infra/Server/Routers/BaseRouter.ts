@@ -1,0 +1,13 @@
+import express, { Request, type Response } from 'express'
+
+const router = express.Router()
+
+router.get('/info', (_req: Request, res: Response) => {
+	res.send('This is an example microservice code, write anything here !!!')
+})
+
+router.get('/', (_req: Request, res: Response) => {
+	res.send('Welcome to my example api !!!')
+})
+
+export default router
