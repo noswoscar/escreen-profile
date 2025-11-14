@@ -31,7 +31,7 @@ export class ProfileRepository implements IProfileRepository {
 	// -----------------------------
 	async findById(id: Types.ObjectId): Promise<Profile | null> {
 		try {
-			const found = await ProfileModel.findById(id) // ✅ use findById
+			const found = await ProfileModel.findById(id) // ✅ query by _id
 			return found ? this.profileMapper.toDomain(found) : null
 		} catch (error: any) {
 			throw new Error(`Error finding profile by ID: ${error.message}`)

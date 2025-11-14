@@ -55,9 +55,9 @@ describe('ProfileRepository Integration', function () {
 		await ProfileModel.create({ _id: id, username: 'findMe', email: 'find@example.com' })
 
 		const found = await repository.findById(id)
-		expect(found).to.be.null // because repository.findById uses {id} instead of {_id}
-
-		// Fix: repository.findById should use _id for ObjectId
+		expect(found).to.be.instanceOf(Profile) // now it will return a Profile
+		expect(found?.getUsername()).to.equal('findMe')
+		expect(found?.getEmail()).to.equal('find@example.com')
 	})
 
 	// -----------------------------
