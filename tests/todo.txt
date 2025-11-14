@@ -70,4 +70,7 @@ Edge validation:
 
 Optional fields boundary cases (negative age, invalid URL for profile image, malformed email if you plan to validate).
 
-Otherwise, based on your tree and test coverage, you’ve already tested CRUD, domain logic, mapper, repository, controller, router, and validation. From a typical Node/Mongoose microservice standpoint, this is very comprehensive.
+
+
+Based on your tree coverage, you’ve already tested CRUD, domain logic, mapper, repository, controller, router, and validation. 
+From a typical Node/Mongoose microservice standpoint, this is very comprehensive.
