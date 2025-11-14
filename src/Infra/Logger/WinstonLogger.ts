@@ -30,17 +30,17 @@ const consoleTransportOptions: ConsoleTransportOptions = {
 }
 
 const errorTransportOptions: FileTransportOptions = {
-	filename: './src/Infra/Server/Logger/Logs/error.log',
+	filename: './src/Infra/Logger/Logs/error.log',
 	level: 'error'
 }
 
 const infoTransportOptions: FileTransportOptions = {
-	filename: './src/Infra/Server/Logger/Logs/info.log',
+	filename: './src/Infra/Logger/Logs/info.log',
 	level: 'info'
 }
 
 const warningTransportOptions: FileTransportOptions = {
-	filename: './src/Infra/Server/Logger/Logs/warning.log',
+	filename: './src/Infra/Logger/Logs/warning.log',
 	level: 'warning'
 }
 
