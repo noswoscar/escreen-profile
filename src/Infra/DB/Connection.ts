@@ -9,11 +9,11 @@ class MongoDBConnection {
 	private dbName: string | undefined = process.env.DB_NAME
 
 	private constructor() {
-		this.mongoUrl = process.env.MONGO_URL || ''
+		this.mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/'
 		if (!this.mongoUrl) {
 			throw new Error('Please add the MONGO_URL to environment variables')
 		}
-		this.dbName = process.env.DB_NAME || ''
+		this.dbName = process.env.DB_NAME || 'small-microservice'
 		if (!this.dbName) {
 			throw new Error('Please add the DB_NAME to environment variables')
 		}
