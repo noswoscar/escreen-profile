@@ -41,10 +41,10 @@ describe('ProfileRepository', function () {
 		expect(created.getEmail()).to.equal('a@example.com')
 		expect(created.getAge()).to.equal(22)
 		expect(created.getProfileImageUrl()).to.be.undefined
-		expect(created.getAllowsBrowserNotifications()).to.be.undefined
-		expect(created.getAllowsEmailNotifications()).to.be.undefined
-		expect(created.getAllowsSmsNotifications()).to.be.undefined
-		expect(created.getAllowsGeolocation()).to.be.undefined
+		expect(created.getAllowsBrowserNotifications()).to.be.false
+		expect(created.getAllowsEmailNotifications()).to.be.false
+		expect(created.getAllowsSmsNotifications()).to.be.false
+		expect(created.getAllowsGeolocation()).to.be.false
 
 		const stored = await ProfileModel.findById(id)
 		expect(stored).to.not.be.null
@@ -62,7 +62,7 @@ describe('ProfileRepository', function () {
 			email: 'find@example.com'
 		})
 
-		const result = await repository.findById(id.toString())
+		const result = await repository.findById(id)
 
 		expect(result).to.be.instanceOf(Profile)
 		expect(result?.getId().toString()).to.equal(id.toString())
@@ -71,7 +71,7 @@ describe('ProfileRepository', function () {
 	})
 
 	it('should return null when profile is not found', async function () {
-		const result = await repository.findById(new Types.ObjectId().toString())
+		const result = await repository.findById(new Types.ObjectId())
 		expect(result).to.be.null
 	})
 
@@ -108,7 +108,7 @@ describe('ProfileRepository', function () {
 		const updatedDomain = new Profile(id, 'newname', 'new@example.com')
 		updatedDomain.setAllowsBrowserNotifications(true)
 
-		const updated = await repository.update(id.toString(), updatedDomain)
+		const updated = await repository.update(id, updatedDomain)
 
 		expect(updated).to.be.instanceOf(Profile)
 		expect(updated?.getUsername()).to.equal('newname')
@@ -122,7 +122,7 @@ describe('ProfileRepository', function () {
 	it('should return null when updating non-existing profile', async function () {
 		const fakeId = new Types.ObjectId()
 		const fake = new Profile(fakeId, 'nobody', 'none@example.com')
-		const result = await repository.update(fakeId.toString(), fake)
+		const result = await repository.update(fakeId, fake)
 		expect(result).to.be.null
 	})
 

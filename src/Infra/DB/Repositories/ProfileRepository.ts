@@ -27,11 +27,11 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	// -----------------------------
-	// FIND BY ID (CUSTOM id field)
+	// FIND BY ID (Objectid field)
 	// -----------------------------
-	async findById(id: string): Promise<Profile | null> {
+	async findById(id: Types.ObjectId): Promise<Profile | null> {
 		try {
-			const found = await ProfileModel.findOne({ id })
+			const found = await ProfileModel.findById(id) // ✅ use findById
 			return found ? this.profileMapper.toDomain(found) : null
 		} catch (error: any) {
 			throw new Error(`Error finding profile by ID: ${error.message}`)
@@ -51,29 +51,25 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	// -----------------------------
-	// UPDATE USING custom id
+	// UPDATE USING Object id
 	// -----------------------------
-	async update(id: string, profile: Profile): Promise<Profile | null> {
-		try {
-			const updated = await ProfileModel.findOneAndUpdate(
-				{ id },
-				{
-					username: profile.getUsername(),
-					email: profile.getEmail(),
-					age: profile.getAge(),
-					profile_image_url: profile.getProfileImageUrl(),
-					allows_browser_notifications: profile.getAllowsBrowserNotifications(),
-					allows_email_notifications: profile.getAllowsEmailNotifications(),
-					allows_sms_notifications: profile.getAllowsSmsNotifications(),
-					allows_geolocation: profile.getAllowsGeolocation()
-				},
-				{ new: true }
-			)
+	async update(id: Types.ObjectId, profile: Profile): Promise<Profile | null> {
+		const updated = await ProfileModel.findByIdAndUpdate(
+			id,
+			{
+				username: profile.getUsername(),
+				email: profile.getEmail(),
+				age: profile.getAge(),
+				profileImageUrl: profile.getProfileImageUrl(),
+				allowsBrowserNotifications: profile.getAllowsBrowserNotifications(),
+				allowsEmailNotifications: profile.getAllowsEmailNotifications(),
+				allowsSmsNotifications: profile.getAllowsSmsNotifications(),
+				allowsGeolocation: profile.getAllowsGeolocation()
+			},
+			{ new: true }
+		)
 
-			return updated ? this.profileMapper.toDomain(updated) : null
-		} catch (error: any) {
-			throw new Error(`Error updating profile: ${error.message}`)
-		}
+		return updated ? this.profileMapper.toDomain(updated) : null
 	}
 
 	// -----------------------------
