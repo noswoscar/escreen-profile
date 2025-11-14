@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { ProfileController } from '../../../App/Controllers/ProfileController'
 import { ProfileService } from '../../../App/Services/ProfileService'
 import { ProfileRepository } from '../../DB/Repositories/ProfileRepository'
-import { createProfileBodySchema, deleteProfileParamsSchema } from './ProfileRouterSchemas'
+import { createProfileBodySchema, deleteProfileParamsSchema } from '../Schemas/ProfileRouterSchemas'
 import { validate } from './validation'
 
 const profileRouter = Router()
