@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 import { Profile } from '../../../Domain/Profile'
-import { ProfileModel } from '../Models/Profile'
+import { IProfile, ProfileModel } from '../Models/Profile'
 
 export class ProfileMapper {
 	// Convert Mongoose document -> Domain Profile
@@ -10,32 +10,47 @@ export class ProfileMapper {
 		const profile = new Profile(id, savedProfile.username, savedProfile.email)
 
 		// Optional fields
-		if (savedProfile.age !== undefined) profile.setAge(savedProfile.age)
-		if (savedProfile.profile_image_url) profile.setProfileImageUrl(savedProfile.profile_image_url)
+		if (savedProfile.age !== undefined && savedProfile.age !== null) {
+			profile.setAge(savedProfile.age)
+		}
 
-		if (savedProfile.allows_browser_notifications !== undefined) profile.setAllowsBrowserNotifications(savedProfile.allows_browser_notifications)
+		if (savedProfile.profileImageUrl !== undefined && savedProfile.profileImageUrl !== null) {
+			profile.setProfileImageUrl(savedProfile.profileImageUrl)
+		}
 
-		if (savedProfile.allows_email_notifications !== undefined) profile.setAllowsEmailNotifications(savedProfile.allows_email_notifications)
+		if (savedProfile.allowsBrowserNotifications !== undefined) {
+			profile.setAllowsBrowserNotifications(savedProfile.allowsBrowserNotifications)
+		}
 
-		if (savedProfile.allows_sms_notifications !== undefined) profile.setAllowsSmsNotifications(savedProfile.allows_sms_notifications)
+		if (savedProfile.allowsEmailNotifications !== undefined) {
+			profile.setAllowsEmailNotifications(savedProfile.allowsEmailNotifications)
+		}
 
-		if (savedProfile.allows_geolocation !== undefined) profile.setAllowsGeolocation(savedProfile.allows_geolocation)
+		if (savedProfile.allowsSmsNotifications !== undefined) {
+			profile.setAllowsSmsNotifications(savedProfile.allowsSmsNotifications)
+		}
+
+		if (savedProfile.allowsGeolocation !== undefined) {
+			profile.setAllowsGeolocation(savedProfile.allowsGeolocation)
+		}
 
 		return profile
 	}
 
-	// Convert Domain Profile -> Mongoose model instance (NOT saved)
-	toModel(profile: Profile): any {
-		return new ProfileModel({
-			id: profile.getId(),
+	// Convert Domain Profile -> Mongoose model instance
+	toModel(profile: Profile): IProfile {
+		const modelData: Partial<IProfile> = {
+			_id: profile.getId(),
 			username: profile.getUsername(),
 			email: profile.getEmail(),
-			age: profile.getAge(),
-			profile_image_url: profile.getProfileImageUrl(),
-			allows_browser_notifications: profile.getAllowsBrowserNotifications(),
-			allows_email_notifications: profile.getAllowsEmailNotifications(),
-			allows_sms_notifications: profile.getAllowsSmsNotifications(),
-			allows_geolocation: profile.getAllowsGeolocation()
-		})
+			age: profile.getAge() ?? null,
+			profileImageUrl: profile.getProfileImageUrl() ?? null,
+			allowsBrowserNotifications: profile.getAllowsBrowserNotifications() ?? false,
+			allowsEmailNotifications: profile.getAllowsEmailNotifications() ?? false,
+			allowsSmsNotifications: profile.getAllowsSmsNotifications() ?? false,
+			allowsGeolocation: profile.getAllowsGeolocation() ?? false
+		}
+
+		return new ProfileModel(modelData)
 	}
 }

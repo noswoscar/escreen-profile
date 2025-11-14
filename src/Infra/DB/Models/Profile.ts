@@ -1,68 +1,51 @@
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Document, Model, Schema, Types } from 'mongoose'
 
-// ----- INTERFACE -----
+// ---------------------------------------------
+// INTERFACE
+// ---------------------------------------------
 export interface IProfile extends Document {
-	id: string
+	_id: Types.ObjectId // domain Profile ID
 	username: string
 	email: string
-	age?: number
-	profile_image_url?: string
-	allows_browser_notifications?: boolean
-	allows_email_notifications?: boolean
-	allows_sms_notifications?: boolean
-	allows_geolocation?: boolean
-	createdAt?: Date
-	updatedAt?: Date
+
+	age?: number | null
+	profileImageUrl?: string | null
+
+	allowsBrowserNotifications: boolean
+	allowsEmailNotifications: boolean
+	allowsSmsNotifications: boolean
+	allowsGeolocation: boolean
+
+	createdAt: Date
+	updatedAt: Date
 }
 
-// ----- SCHEMA -----
+// ---------------------------------------------
+// SCHEMA
+// ---------------------------------------------
 const ProfileSchema = new Schema<IProfile>(
 	{
-		id: {
-			type: String,
+		_id: {
+			type: Schema.Types.ObjectId, // ✅ use Schema.Types.ObjectId here
 			required: true,
-			unique: true
+			auto: false
 		},
-		username: {
-			type: String,
-			required: true,
-			trim: true
-		},
-		email: {
-			type: String,
-			required: true,
-			trim: true,
-			lowercase: true
-		},
-		age: {
-			type: Number,
-			default: null
-		},
-		profile_image_url: {
-			type: String,
-			default: null
-		},
-		allows_browser_notifications: {
-			type: Boolean,
-			default: false
-		},
-		allows_email_notifications: {
-			type: Boolean,
-			default: false
-		},
-		allows_sms_notifications: {
-			type: Boolean,
-			default: false
-		},
-		allows_geolocation: {
-			type: Boolean,
-			default: false
-		}
+		username: { type: String, required: true, trim: true },
+		email: { type: String, required: true, trim: true, lowercase: true },
+		age: { type: Number, default: null, min: 0 },
+		profileImageUrl: { type: String, default: null },
+		allowsBrowserNotifications: { type: Boolean, default: false },
+		allowsEmailNotifications: { type: Boolean, default: false },
+		allowsSmsNotifications: { type: Boolean, default: false },
+		allowsGeolocation: { type: Boolean, default: false }
 	},
 	{
-		timestamps: true // createdAt, updatedAt
+		timestamps: true,
+		versionKey: false
 	}
 )
 
-// ----- MODEL -----
-export const ProfileModel = mongoose.model<IProfile>('Profile', ProfileSchema)
+// ---------------------------------------------
+// MODEL
+// ---------------------------------------------
+export const ProfileModel: Model<IProfile> = mongoose.models.Profile || mongoose.model<IProfile>('Profile', ProfileSchema)

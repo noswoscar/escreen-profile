@@ -24,6 +24,7 @@ describe('ProfileService - createProfile', function () {
 
 	it('should create a profile with required fields only', async function () {
 		const dto: CreateProfileDTO = {
+			id: new Types.ObjectId().toHexString(),
 			username: 'testuser',
 			email: 'test@example.com'
 		}
@@ -39,13 +40,13 @@ describe('ProfileService - createProfile', function () {
 		expect(createdProfile.getAllowsEmailNotifications()).to.be.undefined
 		expect(createdProfile.getAllowsSmsNotifications()).to.be.undefined
 		expect(createdProfile.getAllowsGeolocation()).to.be.undefined
-		expect(createdProfile.getId()).to.be.a('string')
-		expect(Types.ObjectId.isValid(createdProfile.getId())).to.be.true // valid ObjectId
+		expect(createdProfile.getId()).to.be.instanceOf(Types.ObjectId)
 		expect(capturedProfile).to.equal(createdProfile) // ensure repo.create was called
 	})
 
 	it('should create a profile with all optional fields', async function () {
 		const dto: CreateProfileDTO = {
+			id: new Types.ObjectId().toHexString(),
 			username: 'fulluser',
 			email: 'full@example.com',
 			age: 30,
@@ -65,23 +66,27 @@ describe('ProfileService - createProfile', function () {
 		expect(createdProfile.getAllowsSmsNotifications()).to.be.true
 		expect(createdProfile.getAllowsGeolocation()).to.be.false
 		expect(capturedProfile).to.equal(createdProfile)
+		expect(createdProfile.getId()).to.be.instanceOf(Types.ObjectId)
 	})
 
 	it('should use provided id if given', async function () {
+		const providedId = new Types.ObjectId()
 		const dto: CreateProfileDTO = {
-			id: 'customid123',
+			id: providedId.toHexString(),
 			username: 'customuser',
 			email: 'custom@example.com'
 		}
 
 		const createdProfile = await profileService.createProfile(dto)
 
-		expect(createdProfile.getId()).to.equal('customid123')
+		expect(createdProfile.getId().toHexString()).to.equal(providedId.toHexString())
+		expect(createdProfile.getId()).to.be.instanceOf(Types.ObjectId)
 		expect(capturedProfile).to.equal(createdProfile)
 	})
 
 	it('should propagate repository errors', async function () {
 		const dto: CreateProfileDTO = {
+			id: new Types.ObjectId().toHexString(),
 			username: 'failuser',
 			email: 'fail@example.com'
 		}
@@ -101,6 +106,7 @@ describe('ProfileService - createProfile', function () {
 
 	it('should not set optional fields when they are undefined', async function () {
 		const dto: CreateProfileDTO = {
+			id: new Types.ObjectId().toHexString(),
 			username: 'optionaluser',
 			email: 'optional@example.com'
 			// no optional fields
@@ -119,8 +125,8 @@ describe('ProfileService - createProfile', function () {
 
 	it('should throw an error if username is missing', async function () {
 		const dto = {
+			id: new Types.ObjectId().toHexString(),
 			email: 'test@example.com'
-			// username missing
 		}
 
 		try {
@@ -134,8 +140,8 @@ describe('ProfileService - createProfile', function () {
 
 	it('should throw an error if email is missing', async function () {
 		const dto = {
+			id: new Types.ObjectId().toHexString(),
 			username: 'testuser'
-			// email missing
 		}
 
 		try {

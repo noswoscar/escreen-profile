@@ -1,7 +1,6 @@
 import { Types } from 'mongoose'
 import { Profile } from '../../Domain/Profile'
 import { ProfileRepository } from '../../Infra/DB/Repositories/ProfileRepository'
-
 import { CreateProfileDTO } from '../DTOS/CreateProfileDTO'
 
 export class ProfileService {
@@ -15,24 +14,21 @@ export class ProfileService {
 	// CREATE PROFILE
 	// -----------------------------
 	createProfile = async (dto: CreateProfileDTO): Promise<Profile> => {
-		const id = dto.id ?? new Types.ObjectId().toString()
-
 		if (!dto.id) throw new Error('id is required')
 		if (!dto.username) throw new Error('username is required')
 		if (!dto.email) throw new Error('email is required')
+
+		// Convert string ID from main app service to ObjectId
+		const id = new Types.ObjectId(dto.id)
 
 		const profile = new Profile(id, dto.username, dto.email)
 
 		// Map optional properties
 		if (dto.age !== undefined) profile.setAge(dto.age)
 		if (dto.profile_image_url !== undefined) profile.setProfileImageUrl(dto.profile_image_url)
-
 		if (dto.allows_browser_notifications !== undefined) profile.setAllowsBrowserNotifications(dto.allows_browser_notifications)
-
 		if (dto.allows_email_notifications !== undefined) profile.setAllowsEmailNotifications(dto.allows_email_notifications)
-
 		if (dto.allows_sms_notifications !== undefined) profile.setAllowsSmsNotifications(dto.allows_sms_notifications)
-
 		if (dto.allows_geolocation !== undefined) profile.setAllowsGeolocation(dto.allows_geolocation)
 
 		return this.profileRepository.create(profile)
@@ -41,7 +37,8 @@ export class ProfileService {
 	// -----------------------------
 	// DELETE PROFILE
 	// -----------------------------
-	deleteProfile = async (id: string): Promise<boolean> => {
-		return this.profileRepository.delete(id)
+	deleteProfile = async (id: string | Types.ObjectId): Promise<boolean> => {
+		const objId = typeof id === 'string' ? new Types.ObjectId(id) : id
+		return this.profileRepository.delete(objId)
 	}
 }

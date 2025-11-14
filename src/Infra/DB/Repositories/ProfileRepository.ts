@@ -1,5 +1,6 @@
-// src/Repositories/ProfileRepository.ts
+// src/Infra/DB/Repositories/ProfileRepository.ts
 
+import { Types } from 'mongoose'
 import { IProfileRepository } from '../../../Domain/IProfileRepository'
 import { Profile } from '../../../Domain/Profile'
 import { ProfileMapper } from '../Mappers/ProfileMapper'
@@ -18,22 +19,20 @@ export class ProfileRepository implements IProfileRepository {
 	async create(profile: Profile): Promise<Profile> {
 		try {
 			const profileModel = this.profileMapper.toModel(profile)
-			const savedProfile = await profileModel.save()
-			return this.profileMapper.toDomain(savedProfile)
+			const saved = await profileModel.save()
+			return this.profileMapper.toDomain(saved)
 		} catch (error: any) {
 			throw new Error(`Error creating profile: ${error.message}`)
 		}
 	}
 
 	// -----------------------------
-	// FIND BY ID
+	// FIND BY ID (CUSTOM id field)
 	// -----------------------------
 	async findById(id: string): Promise<Profile | null> {
 		try {
-			const found = await ProfileModel.findById(id)
-			if (!found) return null
-
-			return this.profileMapper.toDomain(found)
+			const found = await ProfileModel.findOne({ id })
+			return found ? this.profileMapper.toDomain(found) : null
 		} catch (error: any) {
 			throw new Error(`Error finding profile by ID: ${error.message}`)
 		}
@@ -45,19 +44,19 @@ export class ProfileRepository implements IProfileRepository {
 	async findAll(): Promise<Profile[]> {
 		try {
 			const records = await ProfileModel.find()
-			return records.map((p) => this.profileMapper.toDomain(p))
+			return records.map((doc) => this.profileMapper.toDomain(doc))
 		} catch (error: any) {
 			throw new Error(`Error retrieving profiles: ${error.message}`)
 		}
 	}
 
 	// -----------------------------
-	// UPDATE
+	// UPDATE USING custom id
 	// -----------------------------
 	async update(id: string, profile: Profile): Promise<Profile | null> {
 		try {
-			const updated = await ProfileModel.findByIdAndUpdate(
-				id,
+			const updated = await ProfileModel.findOneAndUpdate(
+				{ id },
 				{
 					username: profile.getUsername(),
 					email: profile.getEmail(),
@@ -68,7 +67,7 @@ export class ProfileRepository implements IProfileRepository {
 					allows_sms_notifications: profile.getAllowsSmsNotifications(),
 					allows_geolocation: profile.getAllowsGeolocation()
 				},
-				{ new: true } // return updated document
+				{ new: true }
 			)
 
 			return updated ? this.profileMapper.toDomain(updated) : null
@@ -78,9 +77,9 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	// -----------------------------
-	// HARD DELETE
+	// DELETE USING domain ObjectId
 	// -----------------------------
-	async delete(id: string): Promise<boolean> {
+	async delete(id: Types.ObjectId): Promise<boolean> {
 		try {
 			const result = await ProfileModel.findByIdAndDelete(id)
 			return result !== null

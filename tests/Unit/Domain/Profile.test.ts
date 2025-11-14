@@ -1,10 +1,11 @@
 import { expect } from 'chai'
+import { Types } from 'mongoose'
 import { Profile } from '../../../src/Domain/Profile'
 
 describe('Profile Entity', function () {
-	let profile
+	let profile: Profile
 
-	const sampleId = '12345'
+	const sampleId = new Types.ObjectId() // now using ObjectId
 	const sampleUsername = 'testuser'
 	const sampleEmail = 'test@example.com'
 
@@ -16,13 +17,13 @@ describe('Profile Entity', function () {
 	// ID
 	// --------------------
 	it('id should initially return the correct value', function () {
-		expect(profile.getId()).to.equal(sampleId)
+		expect(profile.getId().toString()).to.equal(sampleId.toString())
 	})
 
 	it('should update the id', function () {
-		const newId = '67890'
+		const newId = new Types.ObjectId()
 		profile.setId(newId)
-		expect(profile.getId()).to.equal(newId)
+		expect(profile.getId().toString()).to.equal(newId.toString())
 	})
 
 	// --------------------

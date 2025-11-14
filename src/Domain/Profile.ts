@@ -1,5 +1,7 @@
+import { Types } from 'mongoose'
+
 export class Profile {
-	private id: string
+	private id: Types.ObjectId
 	private username: string
 	private email: string
 	private age?: number
@@ -9,17 +11,17 @@ export class Profile {
 	private allows_sms_notifications?: boolean
 	private allows_geolocation?: boolean
 
-	constructor(id: string, username: string, email: string) {
+	constructor(id: Types.ObjectId, username: string, email: string) {
 		this.id = id
 		this.username = username
 		this.email = email
 	}
 
 	// ID
-	public getId(): string {
+	public getId(): Types.ObjectId {
 		return this.id
 	}
-	public setId(id: string): void {
+	public setId(id: Types.ObjectId): void {
 		this.id = id
 	}
 
