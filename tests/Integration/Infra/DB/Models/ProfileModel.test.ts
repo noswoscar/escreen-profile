@@ -1,20 +1,15 @@
 import { expect } from 'chai'
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import mongoose, { Types } from 'mongoose'
-
+import { Types } from 'mongoose'
 import { ProfileModel } from '../../../../../src/Infra/DB/Models/Profile'
+import { setupDatabase, teardownDatabase } from '../../../SetupConnection' // adjust path
 
 describe('ProfileModel Integration Test', function () {
-	let mongo: MongoMemoryServer
-
 	before(async function () {
-		mongo = await MongoMemoryServer.create()
-		await mongoose.connect(mongo.getUri(), { dbName: 'testdb' })
+		await setupDatabase()
 	})
 
 	after(async function () {
-		await mongoose.disconnect()
-		await mongo.stop()
+		await teardownDatabase()
 	})
 
 	beforeEach(async function () {
@@ -45,7 +40,6 @@ describe('ProfileModel Integration Test', function () {
 		expect(created.allowsSmsNotifications).to.be.true
 		expect(created.allowsGeolocation).to.be.false
 
-		// Retrieve from DB
 		const found = await ProfileModel.findById(id)
 		expect(found).to.not.be.null
 		expect(found!.username).to.equal('testuser')
@@ -57,7 +51,6 @@ describe('ProfileModel Integration Test', function () {
 			_id: id,
 			username: 'defaultuser',
 			email: 'default@example.com'
-			// optional fields omitted
 		})
 
 		expect(created.age).to.be.null

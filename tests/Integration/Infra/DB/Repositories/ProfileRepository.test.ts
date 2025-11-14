@@ -1,23 +1,19 @@
 import { expect } from 'chai'
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import mongoose, { Types } from 'mongoose'
-
+import { Types } from 'mongoose'
 import { Profile } from '../../../../../src/Domain/Profile'
 import { ProfileModel } from '../../../../../src/Infra/DB/Models/Profile'
 import { ProfileRepository } from '../../../../../src/Infra/DB/Repositories/ProfileRepository'
+import { setupDatabase, teardownDatabase } from '../../../SetupConnection' // adjust path
 
 describe('ProfileRepository Integration', function () {
-	let mongo: MongoMemoryServer
 	let repository: ProfileRepository
 
 	before(async function () {
-		mongo = await MongoMemoryServer.create()
-		await mongoose.connect(mongo.getUri(), { dbName: 'testdb' })
+		await setupDatabase()
 	})
 
 	after(async function () {
-		await mongoose.disconnect()
-		await mongo.stop()
+		await teardownDatabase()
 	})
 
 	beforeEach(async function () {
@@ -55,7 +51,7 @@ describe('ProfileRepository Integration', function () {
 		await ProfileModel.create({ _id: id, username: 'findMe', email: 'find@example.com' })
 
 		const found = await repository.findById(id)
-		expect(found).to.be.instanceOf(Profile) // now it will return a Profile
+		expect(found).to.be.instanceOf(Profile)
 		expect(found?.getUsername()).to.equal('findMe')
 		expect(found?.getEmail()).to.equal('find@example.com')
 	})

@@ -28,7 +28,7 @@ export class ProfileController {
 				allows_sms_notifications,
 				allows_geolocation
 			} = req.body
-
+			
 			const createdProfile = await this.profileService.createProfile({
 				id,
 				username,
@@ -40,7 +40,6 @@ export class ProfileController {
 				allows_sms_notifications,
 				allows_geolocation
 			})
-
 			res.status(201).json({
 				message: 'Profile created successfully',
 				data: createdProfile

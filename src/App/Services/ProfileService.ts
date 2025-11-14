@@ -30,8 +30,8 @@ export class ProfileService {
 		if (dto.allows_email_notifications !== undefined) profile.setAllowsEmailNotifications(dto.allows_email_notifications)
 		if (dto.allows_sms_notifications !== undefined) profile.setAllowsSmsNotifications(dto.allows_sms_notifications)
 		if (dto.allows_geolocation !== undefined) profile.setAllowsGeolocation(dto.allows_geolocation)
-
-		return this.profileRepository.create(profile)
+		const result = await this.profileRepository.create(profile)
+		return result
 	}
 
 	// -----------------------------

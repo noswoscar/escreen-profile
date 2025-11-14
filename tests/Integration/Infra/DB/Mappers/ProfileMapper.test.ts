@@ -1,46 +1,39 @@
 import { expect } from 'chai'
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import mongoose, { Types } from 'mongoose'
+import { Types } from 'mongoose'
 import { Profile } from '../../../../../src/Domain/Profile'
 import { ProfileMapper } from '../../../../../src/Infra/DB/Mappers/ProfileMapper'
 import { ProfileModel } from '../../../../../src/Infra/DB/Models/Profile'
+import { setupDatabase, teardownDatabase } from '../../../SetupConnection' // adjust path
 
 describe('ProfileMapper Integration', function () {
-	let mongo: MongoMemoryServer
 	let mapper: ProfileMapper
 
 	before(async function () {
-		mongo = await MongoMemoryServer.create()
-		await mongoose.connect(mongo.getUri())
+		await setupDatabase()
 		mapper = new ProfileMapper()
 	})
 
 	after(async function () {
-		await mongoose.disconnect()
-		await mongo.stop()
+		await teardownDatabase()
 	})
 
-	afterEach(async function () {
+	beforeEach(async function () {
 		await ProfileModel.deleteMany({})
 	})
 
 	it('should save a Profile to MongoDB and retrieve it correctly', async function () {
-		// Create a domain profile
 		const profileId = new Types.ObjectId()
 		const domainProfile = new Profile(profileId, 'testuser', 'test@example.com')
 		domainProfile.setAge(30)
 		domainProfile.setProfileImageUrl('http://example.com/avatar.png')
 		domainProfile.setAllowsBrowserNotifications(true)
 
-		// Convert to Mongoose model and save
 		const model = mapper.toModel(domainProfile)
 		await model.save()
 
-		// Retrieve from DB
 		const savedDoc = await ProfileModel.findById(profileId)
 		expect(savedDoc).to.not.be.null
 
-		// Convert back to domain
 		const retrievedProfile = mapper.toDomain(savedDoc!)
 		expect(retrievedProfile.getId().toString()).to.equal(profileId.toString())
 		expect(retrievedProfile.getUsername()).to.equal('testuser')
