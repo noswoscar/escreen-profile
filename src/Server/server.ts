@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import express from 'express'
-import MongoDBConnection from './Infra/DB/Connection'
-import logger from './Infra/Logger/WinstonLogger'
-import routing from './Infra/Server/Routers/routing'
+import { profileRouter } from '../App/Routers/ProfileRouter'
+import MongoDBConnection from '../Infra/DB/Connection'
+import logger from '../Infra/Logger/WinstonLogger'
+import router from './Routers/BaseRouter'
 
 class Server {
 	private app: express.Application
@@ -12,7 +13,7 @@ class Server {
 		this.app = express()
 		this.app.use(express.json())
 
-		this.port = process.env.PORT ?? 3100
+		this.port = process.env.PORT ?? 3007
 
 		this.initializeServer()
 	}
@@ -28,8 +29,8 @@ class Server {
 	}
 
 	private setupRoutes(): void {
-		routing.setBaseRouting(this.app)
-		routing.setEntityRouting(this.app)
+		this.app.use('/api', router)
+		this.app.use('/api/entity', profileRouter)
 	}
 
 	private startHttpServer(): void {

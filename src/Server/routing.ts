@@ -1,6 +1,6 @@
 import type { Application } from 'express'
-import baseRouter from './BaseRouter'
-import { profileRouter } from './ProfileRouter'
+import { profileRouter } from '../App/Routers/ProfileRouter'
+import baseRouter from './Routers/BaseRouter'
 
 const routing = {
 	setBaseRouting: (app: Application) => {

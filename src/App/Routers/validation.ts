@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import * as Joi from 'joi'
-import logger from '../../Logger/WinstonLogger'
+import logger from '../../Infra/Logger/WinstonLogger'
 
 export const validate = (schema: Joi.Schema, source: 'body' | 'params') => {
 	return (req: Request, res: Response, next: NextFunction) => {

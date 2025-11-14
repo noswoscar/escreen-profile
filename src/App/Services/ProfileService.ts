@@ -2,7 +2,7 @@ import { Types } from 'mongoose'
 import { Profile } from '../../Domain/Profile'
 import { ProfileRepository } from '../../Infra/DB/Repositories/ProfileRepository'
 
-import { CreateProfileDTO } from '../DTO/CreateProfileDTO'
+import { CreateProfileDTO } from '../DTOS/CreateProfileDTO'
 
 export class ProfileService {
 	private profileRepository: ProfileRepository
