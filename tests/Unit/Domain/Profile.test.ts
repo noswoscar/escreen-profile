@@ -15,11 +15,11 @@ describe('Profile Entity', function () {
 	// --------------------
 	// ID
 	// --------------------
-	it('should return the correct ID', function () {
+	it('id should initially return the correct value', function () {
 		expect(profile.getId()).to.equal(sampleId)
 	})
 
-	it('should update the ID', function () {
+	it('should update the id', function () {
 		const newId = '67890'
 		profile.setId(newId)
 		expect(profile.getId()).to.equal(newId)
@@ -28,7 +28,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Username
 	// --------------------
-	it('should return the correct username', function () {
+	it('username should initially return the correct value', function () {
 		expect(profile.getUsername()).to.equal(sampleUsername)
 	})
 
@@ -41,7 +41,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Email
 	// --------------------
-	it('should return the correct email', function () {
+	it('email should initially return the correct value', function () {
 		expect(profile.getEmail()).to.equal(sampleEmail)
 	})
 
@@ -54,7 +54,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Age
 	// --------------------
-	it('should return undefined age initially', function () {
+	it('age should initially return undefined', function () {
 		expect(profile.getAge()).to.be.undefined
 	})
 
@@ -67,7 +67,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Profile Image URL
 	// --------------------
-	it('should return undefined profile_image_url initially', function () {
+	it('profile_image_url should initially return undefined', function () {
 		expect(profile.getProfileImageUrl()).to.be.undefined
 	})
 
@@ -80,7 +80,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Browser Notifications
 	// --------------------
-	it('should return undefined allows_browser_notifications initially', function () {
+	it('allows_browser_notifications should initially return undefined', function () {
 		expect(profile.getAllowsBrowserNotifications()).to.be.undefined
 	})
 
@@ -92,7 +92,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Email Notifications
 	// --------------------
-	it('should return undefined allows_email_notifications initially', function () {
+	it('allows_email_notifications should initially return undefined', function () {
 		expect(profile.getAllowsEmailNotifications()).to.be.undefined
 	})
 
@@ -104,7 +104,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// SMS Notifications
 	// --------------------
-	it('should return undefined allows_sms_notifications initially', function () {
+	it('allows_sms_notifications should initially return undefined', function () {
 		expect(profile.getAllowsSmsNotifications()).to.be.undefined
 	})
 
@@ -116,7 +116,7 @@ describe('Profile Entity', function () {
 	// --------------------
 	// Geolocation
 	// --------------------
-	it('should return undefined allows_geolocation initially', function () {
+	it('allows_geolocation should initially return undefined', function () {
 		expect(profile.getAllowsGeolocation()).to.be.undefined
 	})
 

@@ -17,6 +17,9 @@ export class ProfileService {
 	createProfile = async (dto: CreateProfileDTO): Promise<Profile> => {
 		const id = dto.id ?? new Types.ObjectId().toString()
 
+		if (!dto.username) throw new Error('username is required')
+		if (!dto.email) throw new Error('email is required')
+
 		const profile = new Profile(id, dto.username, dto.email)
 
 		// Map optional properties
