@@ -30,7 +30,7 @@ class Server {
 
 	private setupRoutes(): void {
 		this.app.use('/api', router)
-		this.app.use('/api/entity', profileRouter)
+		this.app.use('/api/profile', profileRouter)
 	}
 
 	private startHttpServer(): void {

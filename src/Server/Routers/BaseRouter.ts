@@ -6,8 +6,8 @@ router.get('/info', (_req: Request, res: Response) => {
 	res.send('This is an example microservice code, write anything here !!!')
 })
 
-router.get('/', (_req: Request, res: Response) => {
-	res.send('Welcome to my example api !!!')
+router.get('/*', (_req: Request, res: Response) => {
+	res.send('Usage is /api/profile')
 })
 
 export default router
