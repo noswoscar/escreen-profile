@@ -17,6 +17,7 @@ export class ProfileService {
 	createProfile = async (dto: CreateProfileDTO): Promise<Profile> => {
 		const id = dto.id ?? new Types.ObjectId().toString()
 
+		if (!dto.id) throw new Error('id is required')
 		if (!dto.username) throw new Error('username is required')
 		if (!dto.email) throw new Error('email is required')
 
