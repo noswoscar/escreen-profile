@@ -41,4 +41,31 @@ export class ProfileService {
 		const objId = typeof id === 'string' ? new Types.ObjectId(id) : id
 		return this.profileRepository.delete(objId)
 	}
+
+	// -----------------------------
+	// FIND OR CREATE PROFILE
+	// -----------------------------
+	findOrCreateProfile = async (dto: CreateProfileDTO): Promise<Profile> => {
+		// Validate required fields
+		if (!dto.id) throw new Error('id is required in CreateProfileDTO')
+		if (!dto.username) throw new Error('username is required in CreateProfileDTO')
+		if (!dto.email) throw new Error('email is required in CreateProfileDTO')
+
+		const objectId = new Types.ObjectId(dto.id)
+
+		// 1. Try finding by ID
+		let profile = await this.profileRepository.findById(objectId)
+
+		// optional. If not found by ID, try by username (user might have been created before ID sync)
+		// if (!profile) {
+		// 	profile = await this.profileRepository.findByUsername(dto.username)
+		// }
+
+		// 2. If still not found → create new profile
+		if (!profile) {
+			profile = await this.createProfile(dto)
+		}
+
+		return profile
+	}
 }

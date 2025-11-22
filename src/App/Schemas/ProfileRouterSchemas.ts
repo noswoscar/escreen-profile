@@ -19,3 +19,12 @@ export const createProfileBodySchema = Joi.object({
 export const deleteProfileParamsSchema = Joi.object({
 	id: Joi.string().required()
 })
+
+export const getUserProfileParamsSchema = Joi.object({
+	id: Joi.string().required()
+})
+
+export const getUserProfileBodySchema = Joi.object({
+	username: Joi.string().required(),
+	email: Joi.string().required()
+})

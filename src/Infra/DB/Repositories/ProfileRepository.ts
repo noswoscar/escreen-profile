@@ -39,6 +39,18 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	// -----------------------------
+	// FIND BY ID (Objectid field)
+	// -----------------------------
+	async findByUsername(username: string): Promise<Profile | null> {
+		try {
+			const found = await ProfileModel.findOne({ username: username }) // ✅ query by _id
+			return found ? this.profileMapper.toDomain(found) : null
+		} catch (error: any) {
+			throw new Error(`Error finding profile by ID: ${error.message}`)
+		}
+	}
+
+	// -----------------------------
 	// FIND ALL
 	// -----------------------------
 	async findAll(): Promise<Profile[]> {

@@ -1,12 +1,17 @@
 // Simple test configuration
+const nyc = 'nyc'
+const reporter = '--reporter mochawesome --reporter-options reportDir=../../mocha_reports/escreen-profile'
+
 module.exports = {
-	baseCommand: 'nyc mocha --exit -r ts-node/register --reporter mochawesome --reporter-options reportDir=../../mocha_reports/escreen-profile',
+	baseCommand: 'mocha --exit -r ts-node/register',
 
 	// Unit tests
 	unit: {
 		timeout: 30000,
 		patterns: {
-			all: './tests/Unit/**/*.test.ts'
+			all: './tests/Unit/**/*.test.ts',
+			profilecontroller: './tests/Unit/App/Controllers/ProfileController/*.test.ts',
+			profileservice: './tests/Unit/App/Services/ProfileService/*.test.ts'
 		}
 	},
 

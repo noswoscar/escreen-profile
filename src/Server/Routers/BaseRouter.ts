@@ -6,7 +6,8 @@ router.get('/info', (_req: Request, res: Response) => {
 	res.send('This is an example microservice code, write anything here !!!')
 })
 
-router.get('/*', (_req: Request, res: Response) => {
+router.get('/*', (req: Request, res: Response) => {
+	console.log(req)
 	res.send('Usage is /api/profile')
 })
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import logger from '../../Infra/Logger/WinstonLogger'
+import { CreateProfileDTO } from '../DTOS/CreateProfileDTO'
 import { ProfileService } from '../Services/ProfileService'
 
 export class ProfileController {
@@ -28,7 +29,7 @@ export class ProfileController {
 				allows_sms_notifications,
 				allows_geolocation
 			} = req.body
-			
+
 			const createdProfile = await this.profileService.createProfile({
 				id,
 				username,
@@ -49,6 +50,42 @@ export class ProfileController {
 				message: 'Error creating profile',
 				error: error instanceof Error ? error.message : 'Unknown error'
 			})
+		}
+	}
+
+	findOrCreateUserProfile = async (req: Request, res: Response) => {
+		try {
+			const profileId = req.params.id
+			const { username, email } = req.body
+
+			logger.info(`Finding or creating profile for ID=${profileId}, username=${username}`)
+
+			if (!profileId) {
+				return res.status(400).json({ message: 'Profile ID (param :id) is required' })
+			}
+			if (!username) {
+				return res.status(400).json({ message: 'username is required' })
+			}
+			if (!email) {
+				return res.status(400).json({ message: 'email is required' })
+			}
+
+			// Build DTO
+			const dto: CreateProfileDTO = {
+				id: profileId,
+				username,
+				email
+			}
+
+			const profile = await this.profileService.findOrCreateProfile(dto)
+
+			return res.status(200).json({
+				message: 'Profile retrieved or created successfully',
+				profile
+			})
+		} catch (err: any) {
+			logger.error(`Error finding/creating profile for ID=${req.params.id}: ${err?.message || err}`)
+			return res.status(500).json({ message: 'Could not retrieve or create profile' })
 		}
 	}
 

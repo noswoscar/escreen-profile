@@ -1,5 +1,5 @@
 {
-	"name": "small-microservice",
+	"name": "profile-microservice",
 	"version": "1.0.0",
 	"description": "A minimal microservice to be used as a template",
 	"main": "Server/index.js",

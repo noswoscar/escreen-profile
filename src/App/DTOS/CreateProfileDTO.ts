@@ -1,7 +1,7 @@
-export interface CreateProfileDTO {
-	id?: string
-	username: string
-	email: string
+export class CreateProfileDTO {
+	id!: string
+	username!: string
+	email!: string
 
 	age?: number
 	profile_image_url?: string
@@ -10,4 +10,8 @@ export interface CreateProfileDTO {
 	allows_email_notifications?: boolean
 	allows_sms_notifications?: boolean
 	allows_geolocation?: boolean
+
+	constructor(props: CreateProfileDTO) {
+		Object.assign(this, props)
+	}
 }
