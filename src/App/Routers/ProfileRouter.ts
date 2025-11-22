@@ -16,20 +16,27 @@ const profileRouter = Router()
 const profileRepository = new ProfileRepository()
 const profileService = new ProfileService(profileRepository)
 const profileController = new ProfileController(profileService)
-// Route to create an Entity
-profileRouter.post('/', validate(createProfileBodySchema, 'body'), profileController.createProfile).bind(profileController)
 
-// Route to create an Entity
-profileRouter
-	.put('/:id', validate(getUserProfileParamsSchema, 'params'), validate(getUserProfileBodySchema, 'body'), profileController.findOrCreateUserProfile)
-	.bind(profileController)
+// Create profile
+profileRouter.post('/', validate(createProfileBodySchema, 'body'), profileController.createProfile)
 
-// Route to update an Entity
-profileRouter
-	.post('/update/:id', validate(updateProfileParamsSchema, 'params'), validate(updateProfileBodySchema, 'body'), profileController.updateUserProfile)
-	.bind(profileController)
+// Find or create profile
+profileRouter.put(
+	'/:id',
+	validate(getUserProfileParamsSchema, 'params'),
+	validate(getUserProfileBodySchema, 'body'),
+	profileController.findOrCreateUserProfile
+)
 
-// Route to delete an Entity
-profileRouter.delete('/:id', validate(deleteProfileParamsSchema, 'params'), profileController.deleteProfile).bind(profileController)
+// Update profile
+profileRouter.post(
+	'/update/:id',
+	validate(updateProfileParamsSchema, 'params'),
+	validate(updateProfileBodySchema, 'body'),
+	profileController.updateUserProfile
+)
+
+// Delete profile
+profileRouter.delete('/:id', validate(deleteProfileParamsSchema, 'params'), profileController.deleteProfile)
 
 export { profileRouter }
