@@ -19,12 +19,7 @@ profileRouter.post('/', validate(createProfileBodySchema, 'body'), profileContro
 
 // Route to create an Entity
 profileRouter
-	.put(
-		'/getUserProfile/:id',
-		validate(getUserProfileParamsSchema, 'params'),
-		validate(getUserProfileBodySchema, 'params'),
-		profileController.findOrCreateUserProfile
-	)
+	.put('/:id', validate(getUserProfileParamsSchema, 'params'), validate(getUserProfileBodySchema, 'body'), profileController.findOrCreateUserProfile)
 	.bind(profileController)
 
 // Route to delete an Entity
