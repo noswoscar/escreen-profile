@@ -27,7 +27,7 @@ module.exports = {
 	e2e: {
 		timeout: 60000,
 		patterns: {
-			// all: "echo 'E2E not yet implemented'"
+			all: './tests/E2E/**/*.test.ts'
 		}
 	}
 }
