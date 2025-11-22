@@ -18,6 +18,8 @@ export interface IProfile extends Document {
 
 	createdAt: Date
 	updatedAt: Date
+
+	deleted: boolean
 }
 
 // ---------------------------------------------
@@ -37,7 +39,8 @@ const ProfileSchema = new Schema<IProfile>(
 		allowsBrowserNotifications: { type: Boolean, default: false },
 		allowsEmailNotifications: { type: Boolean, default: false },
 		allowsSmsNotifications: { type: Boolean, default: false },
-		allowsGeolocation: { type: Boolean, default: false }
+		allowsGeolocation: { type: Boolean, default: false },
+		deleted: { type: Boolean, default: false }
 	},
 	{
 		timestamps: true,

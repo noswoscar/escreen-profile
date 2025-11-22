@@ -5,7 +5,9 @@ import {
 	createProfileBodySchema,
 	deleteProfileParamsSchema,
 	getUserProfileBodySchema,
-	getUserProfileParamsSchema
+	getUserProfileParamsSchema,
+	updateProfileBodySchema,
+	updateProfileParamsSchema
 } from '../Schemas/ProfileRouterSchemas'
 import { ProfileService } from '../Services/ProfileService'
 import { validate } from './validation'
@@ -20,6 +22,11 @@ profileRouter.post('/', validate(createProfileBodySchema, 'body'), profileContro
 // Route to create an Entity
 profileRouter
 	.put('/:id', validate(getUserProfileParamsSchema, 'params'), validate(getUserProfileBodySchema, 'body'), profileController.findOrCreateUserProfile)
+	.bind(profileController)
+
+// Route to update an Entity
+profileRouter
+	.post('/update/:id', validate(updateProfileParamsSchema, 'params'), validate(updateProfileBodySchema, 'body'), profileController.updateUserProfile)
 	.bind(profileController)
 
 // Route to delete an Entity

@@ -24,6 +24,26 @@ export const getUserProfileParamsSchema = Joi.object({
 	id: Joi.string().required()
 })
 
+export const updateProfileParamsSchema = Joi.object({
+	id: Joi.string().required()
+})
+
+const optionsSchema = Joi.object({
+	allows_browser_notifications: Joi.boolean().required(),
+	allows_email_notifications: Joi.boolean().required(),
+	allows_sms_notifications: Joi.boolean().required(),
+	allows_geolocation: Joi.boolean().required()
+})
+
+const profileSchema = Joi.object({
+	options: optionsSchema,
+	followers: Joi.number().required()
+})
+
+export const updateProfileBodySchema = Joi.object({
+	profile: profileSchema
+})
+
 export const getUserProfileBodySchema = Joi.object({
 	username: Joi.string().required(),
 	email: Joi.string().required()

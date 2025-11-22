@@ -7,7 +7,6 @@ router.get('/info', (_req: Request, res: Response) => {
 })
 
 router.get('/*', (req: Request, res: Response) => {
-	console.log(req)
 	res.send('Usage is /api/profile')
 })
 

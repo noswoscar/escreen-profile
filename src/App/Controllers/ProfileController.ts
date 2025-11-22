@@ -53,6 +53,34 @@ export class ProfileController {
 		}
 	}
 
+	updateUserProfile = async (req: Request, res: Response) => {
+		try {
+			const userId = req.params.id
+			const updatedProfile = req.body.profile
+
+			if (!userId || !updatedProfile?.options) {
+				return res.status(400).json({ message: 'Missing user ID or profile options' })
+			}
+
+			// Call service to update profile using the entity
+			const profile = await this.profileService.updateProfile(userId, {
+				allowsBrowserNotifications: updatedProfile.options.allows_browser_notifications,
+				allowsEmailNotifications: updatedProfile.options.allows_email_notifications,
+				allowsSmsNotifications: updatedProfile.options.allows_sms_notifications,
+				allowsGeolocation: updatedProfile.options.allows_geolocation
+			})
+
+			if (!profile) {
+				return res.status(404).json({ message: 'Profile not found' })
+			}
+
+			return res.status(200).json({ message: 'Profile updated successfully', profile })
+		} catch (err: any) {
+			console.error(`Error updating profile for ID=${req.params.id}:`, err)
+			return res.status(500).json({ message: 'Could not update profile' })
+		}
+	}
+
 	findOrCreateUserProfile = async (req: Request, res: Response) => {
 		try {
 			const profileId = req.params.id
@@ -78,7 +106,6 @@ export class ProfileController {
 			}
 
 			const profile = await this.profileService.findOrCreateProfile(dto)
-
 			return res.status(200).json({
 				message: 'Profile retrieved or created successfully',
 				profile

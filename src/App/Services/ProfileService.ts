@@ -68,4 +68,32 @@ export class ProfileService {
 
 		return profile
 	}
+
+	// -----------------------------
+	// UPDATE PROFILE
+	// -----------------------------
+	updateProfile = async (
+		userId: string,
+		options: {
+			allowsBrowserNotifications?: boolean
+			allowsEmailNotifications?: boolean
+			allowsSmsNotifications?: boolean
+			allowsGeolocation?: boolean
+		}
+	): Promise<Profile | null> => {
+		const objectId = new Types.ObjectId(userId)
+		// 1️⃣ Fetch existing profile entity
+		const profile = await this.profileRepository.findById(objectId)
+		if (!profile) return null
+
+		// 2️⃣ Update only changed options
+		if (options.allowsBrowserNotifications !== undefined) profile.setAllowsBrowserNotifications(options.allowsBrowserNotifications)
+		if (options.allowsEmailNotifications !== undefined) profile.setAllowsEmailNotifications(options.allowsEmailNotifications)
+		if (options.allowsSmsNotifications !== undefined) profile.setAllowsSmsNotifications(options.allowsSmsNotifications)
+		if (options.allowsGeolocation !== undefined) profile.setAllowsGeolocation(options.allowsGeolocation)
+
+		// 3️⃣ Save updated entity
+		const updatedProfile = await this.profileRepository.update(objectId, profile)
+		return updatedProfile
+	}
 }
