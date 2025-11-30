@@ -1,3 +1,4 @@
 node_modules/
 src/Infra/Logger/Logs/
 .env
+dist/
