@@ -4,7 +4,7 @@ import { profileRouter } from '../App/Routers/ProfileRouter'
 import MongoDBConnection from '../Infra/DB/Connection'
 import logger from '../Infra/Logger/WinstonLogger'
 
-class Server {
+export default class ProfileServer {
 	private app: express.Application
 	private port: number | string
 
@@ -14,13 +14,8 @@ class Server {
 
 		this.port = process.env.PORT ?? 3007
 
-		this.initializeServer()
-	}
-
-	private initializeServer(): void {
 		this.setupDatabase()
 		this.setupRoutes()
-		this.startHttpServer()
 	}
 
 	private setupDatabase(): void {
@@ -32,11 +27,9 @@ class Server {
 		// this.app.use('/', router)
 	}
 
-	private startHttpServer(): void {
+	public startHttpServer(): void {
 		this.app.listen(this.port, () => {
 			logger.info(`Http server started. Listening on port ${this.port}`)
 		})
 	}
 }
-
-export { Server } // Export the class for testing

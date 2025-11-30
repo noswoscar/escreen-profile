@@ -1,5 +1,16 @@
-import { Server } from './server'
+import 'dotenv/config'
+import ProfileServer from './ProfileServer'
 
-const server = new Server()
+async function main() {
+	try {
+		console.log('🚀 Starting Calendar Microservice...')
 
-export default server
+		const server = new ProfileServer()
+		server.startHttpServer()
+	} catch (err) {
+		console.error('❌ Failed to start the server:', err)
+		process.exit(1)
+	}
+}
+
+main()
