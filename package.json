@@ -12,7 +12,8 @@
 		"test:unit": "node TestRunner/main.js test:unit",
 		"test:integration": "node TestRunner/main.js test:integration",
 		"test:e2e": "node TestRunner/main.js test:e2e",
-		"test:all": "node TestRunner/main.js all"
+		"test:all": "node TestRunner/main.js all",
+		"test:fullReport": "node TestRunner/main.js test:fullReport"
 	},
 	"keywords": [],
 	"author": "",

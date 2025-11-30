@@ -29,5 +29,13 @@ module.exports = {
 		patterns: {
 			all: './tests/E2E/**/*.test.ts'
 		}
+	},
+
+	// E2E tests
+	fullReport: {
+		timeout: 60000,
+		patterns: {
+			all: './tests/Unit/**/*.test.ts'
+		}
 	}
 }
