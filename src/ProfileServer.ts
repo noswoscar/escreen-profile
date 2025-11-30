@@ -1,8 +1,8 @@
 import 'dotenv/config'
 import express from 'express'
-import { profileRouter } from '../App/Routers/ProfileRouter'
-import MongoDBConnection from '../Infra/DB/Connection'
-import logger from '../Infra/Logger/WinstonLogger'
+import { profileRouter } from './App/Routers/ProfileRouter'
+import MongoDBConnection from './Infra/DB/Connection'
+import logger from './Infra/Logger/WinstonLogger'
 
 export default class ProfileServer {
 	private app: express.Application
