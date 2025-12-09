@@ -3,6 +3,7 @@ import express from 'express'
 import { profileRouter } from './App/Routers/ProfileRouter'
 import MongoDBConnection from './Infra/DB/Connection'
 import logger from './Infra/Logger/WinstonLogger'
+import router from './Server/Routers/BaseRouter'
 
 export default class ProfileServer {
 	private app: express.Application
@@ -24,7 +25,7 @@ export default class ProfileServer {
 
 	private setupRoutes(): void {
 		this.app.use('/api/profile', profileRouter)
-		// this.app.use('/', router)
+		this.app.use('/', router)
 	}
 
 	public startHttpServer(): void {
