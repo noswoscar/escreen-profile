@@ -29,7 +29,7 @@ export default class ProfileServer {
 
 	public startHttpServer(): void {
 		this.app.listen(this.port, () => {
-			logger.info(`Http server started. Listening on port ${this.port}`)
+			logger.info(`escreen-profile: API available at http://localhost:${this.port}`)
 		})
 	}
 }

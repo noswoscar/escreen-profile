@@ -1,14 +1,15 @@
 import 'dotenv/config'
+import logger from './Infra/Logger/WinstonLogger'
 import ProfileServer from './ProfileServer'
 
 async function main() {
 	try {
-		console.log('🚀 Starting Calendar Microservice...')
+		logger.info('🚀 Starting Profile Microservice...')
 
 		const server = new ProfileServer()
 		server.startHttpServer()
 	} catch (err) {
-		console.error('❌ Failed to start the server:', err)
+		logger.error(`❌ Failed to start the server: ${err}`)
 		process.exit(1)
 	}
 }
