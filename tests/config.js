@@ -1,9 +1,9 @@
 // Simple test configuration
-const nyc = 'nyc'
+const nyc = 'nyc '
 const reporter = '--reporter mochawesome --reporter-options reportDir=../../mocha_reports/escreen-profile'
 
 module.exports = {
-	baseCommand: 'mocha --exit -r ts-node/register',
+	baseCommand: nyc + 'mocha --exit -r ts-node/register ' + reporter,
 
 	// Unit tests
 	unit: {
