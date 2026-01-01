@@ -4,9 +4,9 @@
 	"description": "A minimal microservice to be used as a template",
 	"main": "Server/index.js",
 	"scripts": {
-		"dev": "ts-node-dev --respawn --transpile-only ./src/Server/index.ts",
+		"dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
 		"build": "tsc",
-		"start": "pnpm install && node ./dist/Server/index.js",
+		"start": "pnpm install && node ./dist/index.ts",
 		"test:list": "node TestRunner/main.js",
 		"test": "node TestRunner/main.js",
 		"test:unit": "node TestRunner/main.js test:unit",
